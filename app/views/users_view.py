@@ -21,23 +21,26 @@ class UserAPI(MethodView):
 
     def post(self):
         """"create a new user"""
-        received_data = request.get_json()
+        received_data = request.get_json()           
+        validated = self.validate_user_input(received_data)
+        if  not validated["status"]:
+            response = jsonify({'message':validated['message']})
+            response.status_code = 400
+            return response
         hashed_password = generate_password_hash(received_data['password'], method='sha256')
-
-        # TODO 1:replace this with a form validation function that returns a user object
         user = User()
         user.public_id = str(uuid.uuid4())
         user.username = received_data['username']
         user.password = hashed_password
         user.admin = "False"
-
+    
         dbConnect = DatabaseConnection()
-        dbConnect.insert_user(user)     
-
-
+        dbConnect.insert_user(user)
         response = jsonify({'message':'signup successful!'})
         response.status_code = 201
         return response
+
+        
 
     def delete(self, user_id):
         # delete a single user
@@ -46,6 +49,17 @@ class UserAPI(MethodView):
     def put(self, user_id):
         # update a single user
         pass
+
+    def validate_user_input(self, received_data):
+        """validate user inputs"""
+        #check username
+        if  len(received_data['username']) == 0:
+            return {'status': False, 'message':'missing username.'}
+        elif len(received_data['password']) == 0: 
+            return {'status': False, 'message':'missing password.'}    
+        return {'status': True, 'message':'Data is valid.'}
+
+
 
 user_view = UserAPI.as_view('user_api')
 

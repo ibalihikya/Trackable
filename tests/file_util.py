@@ -26,10 +26,22 @@ new_user1_json_str = open(os.path.join(location,'json_test_files/new_user1.json'
 new_user1_data = json.loads(new_user1_json_str)
 
 
-#Read a single user request from file - used in testing POST when user adds request
-#Note the request id is added
+#Read a single user request from file - used in testing POST
 new_user_creation_success_json_str = open(os.path.join(location,'json_test_files/new_user_creation_success.json')).read()
 new_user_creation_success = json.loads(new_user_creation_success_json_str)
+
+#Read a single user request from file - used in testing POST
+new_user_creation_failure_json_str = open(os.path.join(location,'json_test_files/new_user_creation_failure.json')).read()
+new_user_creation_failure = json.loads(new_user_creation_failure_json_str)
+
+#Read a single user request from file - used in testing POST
+missing_username_entry_json_str = open(os.path.join(location,'json_test_files/missing_username_entry.json')).read()
+missing_username_entry = json.loads(missing_username_entry_json_str)
+
+missing_username_response_json_str = open(os.path.join(location,'json_test_files/missing_username_response.json')).read()
+missing_username_response = json.loads(missing_username_response_json_str)
+
+
 
 # Read an entry to modify a user request
 user_request_modify_json_str = open(os.path.join(location,'json_test_files/user_request_modify.json')).read()

@@ -69,6 +69,24 @@ class SignUpTest(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.get_json(), new_user_creation_success)
 
+    def test_signup_missing_username(self):
+        """ Test user sign up with invalid inputs"""
+        testobj = app.test_client(self)
+        response = testobj.post('/api/v1/auth/signup', json=missing_username_entry )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.get_json(), missing_username_response)
+
+    def test_signup_missing_password(self):
+        """ Test user sign up with invalid inputs"""
+        testobj = app.test_client(self)
+        response = testobj.post('/api/v1/auth/signup', \
+                    json={"username": "ibalihikya", "password":""})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.get_json(), {"message":"missing password."})
+
+    
+
+
     
 
 
